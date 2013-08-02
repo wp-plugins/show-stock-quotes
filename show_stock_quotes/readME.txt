@@ -1,4 +1,4 @@
-=== Plugin Name ===
+=== Show Stock Quotes ===
 Contributors: kjbenk
 Donate link: 
 Tags: stocks, stock quotes, market, money, investing, finance, wall street
