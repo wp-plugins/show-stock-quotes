@@ -27,7 +27,7 @@ License: GPL2
 
 class kjb_Show_Stocks extends WP_Widget {
 	
-	function kjb_show_stocks(){
+	function kjb_Show_Stocks(){
 		$widget_ops = array( 'classname' => 'kjb_show_stocks', 'description' => 'Display stock data in real-time.' );
 		
 		$this->options = array(
