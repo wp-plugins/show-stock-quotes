@@ -26,7 +26,7 @@ Upload `show_stock_quotes` to the `/wp-content/plugins/` directory or activate t
 
 == Screenshots ==
 
-
+1. Show Stocks
 
 == Changelog ==
 
