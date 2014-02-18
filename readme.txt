@@ -2,7 +2,7 @@
 Contributors: kjbenk
 Donate link: 
 Tags: stocks, stock quotes, market, money, investing, finance, wall street
-Requires at least: 1.0
+Requires at least: 3.5
 Tested up to: 1.0
 Stable tag: trunk
 License: GPLv2 or later
