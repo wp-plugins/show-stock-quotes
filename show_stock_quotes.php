@@ -24,32 +24,23 @@ License: GPL2
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-
+ 
 class kjb_Show_Stocks extends WP_Widget {
 	
 	function kjb_Show_Stocks(){
 		$widget_ops = array( 'classname' => 'kjb_show_stocks', 'description' => 'Display stock data in real-time.' );
 		
-		$this->options = array(
-			array(
-				'name'  => 'title', 'label' => 'Title',
-				'type'	=> 'text', 	'default' => 'Stocks'	),
-			array(
-				'name'	=> 'stock_1',	'label'	=> 'Stock Tickers',
-				'type'	=> 'text',	'default' => 'AAPL'			),
-			array(
-				'name'	=> 'stock_2',	'label'	=> '',
-				'type'	=> 'text',	'default' => 'GOOG'			),
-			array(
-				'name'	=> 'stock_3',	'label'	=> '',
-				'type'	=> 'text',	'default' => 'IBM'			),
-			array(
-				'name'	=> 'stock_4',	'label'	=> '',
-				'type'	=> 'text',	'default' => 'ORCL'			),
-			array(
-				'name'	=> 'stock_5',	'label'	=> '',
-				'type'	=> 'text',	'default' => 'HPQ'			)
+		$this->options[] = array(
+			'name'  => 'title', 'label' => 'Title',
+			'type'	=> 'text', 	'default' => 'Stocks'	
 		);
+		
+		for ($i = 1; $i < 21; $i++) {
+			$this->options[] = array(
+				'name'	=> 'stock_' . $i,	'label'	=> 'Stock Tickers',
+				'type'	=> 'text',	'default' => ''			
+			);
+		}
 		
 		parent::WP_Widget(false, 'Show Stock Data', $widget_ops);	
 	}
@@ -68,31 +59,22 @@ class kjb_Show_Stocks extends WP_Widget {
 			echo 'Make sure settings are saved.';
 		}
 		
-		$contents = $this->kjb_get_stock_data($instance);
+		$tickers = $this->kjb_get_stock_data($instance);
 		
 		//Display all stock data
 		?>
-		<table id = 'table'>
-		  <col width='75'>
-		  <col width='75'>
-		  <col width='100'>
+		<table style="border: 0px; border:none; border-collapse:collapse">
+		  <col width='20%'>
+		  <col width='40%'>
+		  <col width='40%'>
 		<?php
-		foreach($contents as $item)
-		{
-			if (count($item) == 4) {
-				?> <tr> <?php
-				if ($item['change'] > 0){
-					?> <td id="ticker"> <?php echo $item['ticker']; ?> </td> 
-					   <td id="quote"> <?php echo '$'.$item['quote']; ?> </td>
-					   <td style = 'color:green'> <?php echo $item['change']; ?> </td> <?php
-				}else{
-					?> <td id="ticker"> <?php echo $item['ticker']; ?> </td> 
-					   <td id="quote"> <?php echo '$'.$item['quote']; ?> </td> 
-					   <td style = 'color:red'> <?php echo $item['change']; ?> </td> <?php
-				}
-				?> </tr> <?php
-			}
-		}
+		foreach($tickers as $ticker) { ?>
+			<tr style="border:none;"> 
+				<td class="kjb_show_stock_quotes_ticker" style="border: none;"> <?php echo $ticker; ?> </td> 
+				<td class="kjb_show_stock_quotes_quote_<?php echo $ticker; ?> kjb_show_stock_quotes_error" style="border:none;"></td>
+				<td class="kjb_show_stock_quotes_change_<?php echo $ticker; ?> kjb_show_stock_quotes_error" style="border:none;"></td>
+			</tr>
+		<?php }
 		?></table><?php
 		
 		echo $after_widget;
@@ -103,7 +85,7 @@ class kjb_Show_Stocks extends WP_Widget {
 		$instance = $old_instance;
 		
 		foreach ($this->options as $val) {
-			$instance[$val['name']] = strip_tags($new_instance[$val['name']]);
+			$instance[$val['name']] = strip_tags(isset($new_instance[$val['name']]) ? $new_instance[$val['name']] : '');
 		}
 		
         return $instance;
@@ -111,10 +93,11 @@ class kjb_Show_Stocks extends WP_Widget {
     
 	/** @see WP_Widget::form */
     function form($instance) {
-    	if (isset($instance)){
-	    	$title = $instance[ 'title' ];
+    	
+    	if (isset($instance['title'])){
+	    	$title = $instance['title'];
     	}else{
-	    	$title = __( 'New title', 'text_domain' );    	
+	    	$title = __('New title');    	
 	    }
 	    
 	   
@@ -124,43 +107,59 @@ class kjb_Show_Stocks extends WP_Widget {
 		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" />
 		<br /><br />
 		<label>Stocks Tickers</label>
+		<ol>
+		
 		<?php
-		for ($i = 1; $i < 6; $i++) {
-			$stock = $instance['stock_'.$i];
-			?><input class="widefat" id="<?php echo $this->get_field_id( 'stock_'.$i ); ?>" name="<?php echo $this->get_field_name( 'stock_'.$i); ?>" type="text" value="<?php echo esc_attr( $stock ); ?>" />
+		for ($i = 1; $i < 21; $i++) {
+			$stock = isset($instance['stock_'.$i]) ? $instance['stock_'.$i] : '';
+			?>
+			<li><input class="widefat" id="<?php echo $this->get_field_id( 'stock_'.$i ); ?>" name="<?php echo $this->get_field_name( 'stock_'.$i); ?>" type="text" value="<?php echo esc_attr( $stock ); ?>" /></li>
 			<?php
 		}
 		?>
+		</ol>
 		</p>
 		<?php 
 	}
 	
 	
-	protected function kjb_get_stock_data($ticker_info){
-		$out = get_transient('kjb_stockdata_transient');
+	protected function kjb_get_stock_data($ticker_info) {
+	
+		wp_register_script('kjb_quotes_js_src', plugins_url('include/js/kjb_quotes.js', __FILE__));
+		wp_enqueue_script('kjb_quotes_js_src');
+		wp_enqueue_script('kjb_jquery', "//code.jquery.com/jquery-1.10.2.js");
 		
-		if (false === $out){
-			for ($i = 1; $i < 6; $i++) {
-				$ticker = $ticker_info['stock_'.$i];
-				if ($ticker != '') {
-					//Get stock data
-					$contents = str_getcsv(file_get_contents('http://download.finance.yahoo.com/d/quotes.csv?s='.$ticker.'&f=sl1c1c0&e=.csv'),',');
-					if ($contents[1] != '0.00') {
-						$temp = array(
-							'ticker' => $contents[0],
-							'quote' => $contents[1],
-							'change' => $contents[2],
-							'change_precent' => $contents[3]
-						);
-					}else{
-						$temp = 'Invalid ticker';
-					}
-					$out[] = $temp;
+		//$out = get_transient('kjb_stockdata_transient');
+		
+		//if (false === $out){
+		for ($i = 1; $i < 21; $i++) {
+			$ticker = $ticker_info['stock_'.$i];
+			if ($ticker != '') {
+				//Get stock data
+				//$contents = str_getcsv(file_get_contents('http://download.finance.yahoo.com/d/quotes.csv?s='.$ticker.'&f=sl1c1c0&e=.csv'),',');
+				/*
+if ($contents[1] != '0.00') {
+					$temp = array(
+					'ticker' => $contents[],
+					'quote' => $contents[],
+					'change' => $contents[],
+					'change_precent' => $contents[]
+				);
+				}else{
+					$temp = 'Invalid ticker';
 				}
+*/					
+				$out[] = $ticker;
 			}
-			
-			set_transient('kjb_stockdata_transient',$out,60);	
 		}
+		
+		error_log($out);
+		
+		wp_localize_script('kjb_quotes_js_src', 'stock_array', $out);
+			
+			
+			//set_transient('kjb_stockdata_transient',$out,60);	
+		//}
 		
 		return $out;
 	}
