@@ -30,6 +30,9 @@ Upload `show_stock_quotes` to the `/wp-content/plugins/` directory or activate t
 
 == Changelog ==
 
+= 1.2.1 =
+-	Fixed minor bug
+
 = 1.2 =
 -	Fixed widget to fit the entire sidebar.
 
