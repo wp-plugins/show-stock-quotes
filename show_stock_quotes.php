@@ -3,7 +3,7 @@
 Plugin Name: Show Stock Quotes
 Plugin URI: http://kylebenkapps.com/wordpress-plugins/
 Description: Show stock quotes updated in real-time.
-Version: 1.1
+Version: 1.2
 Author: Kyle Benk
 Author URI: http://kylebenkapps.com
 License: GPL2
@@ -63,7 +63,7 @@ class kjb_Show_Stocks extends WP_Widget {
 		
 		//Display all stock data
 		?>
-		<table style="border: 0px; border:none; border-collapse:collapse">
+		<table class="kjb_show_stock_quotes_table">
 		  <col width='20%'>
 		  <col width='40%'>
 		  <col width='40%'>
@@ -71,8 +71,8 @@ class kjb_Show_Stocks extends WP_Widget {
 		foreach($tickers as $ticker) { ?>
 			<tr style="border:none;"> 
 				<td class="kjb_show_stock_quotes_ticker" style="border: none;"> <?php echo $ticker; ?> </td> 
-				<td class="kjb_show_stock_quotes_quote_<?php echo $ticker; ?> kjb_show_stock_quotes_error" style="border:none;"></td>
-				<td class="kjb_show_stock_quotes_change_<?php echo $ticker; ?> kjb_show_stock_quotes_error" style="border:none;"></td>
+				<td class="kjb_show_stock_quotes_quote_<?php echo $ticker; ?> kjb_show_stock_quotes_error"></td>
+				<td class="kjb_show_stock_quotes_change_<?php echo $ticker; ?> kjb_show_stock_quotes_error"></td>
 			</tr>
 		<?php }
 		?></table><?php
@@ -127,6 +127,10 @@ class kjb_Show_Stocks extends WP_Widget {
 	
 		wp_register_script('kjb_quotes_js_src', plugins_url('include/js/kjb_quotes.js', __FILE__));
 		wp_enqueue_script('kjb_quotes_js_src');
+		
+		wp_register_style('kjb_quotes_css_src', plugins_url('include/css/kjb_quotes.css', __FILE__));
+		wp_enqueue_style('kjb_quotes_css_src');
+		
 		wp_enqueue_script('kjb_jquery', "//code.jquery.com/jquery-1.10.2.js");
 		
 		//$out = get_transient('kjb_stockdata_transient');
@@ -152,8 +156,6 @@ if ($contents[1] != '0.00') {
 				$out[] = $ticker;
 			}
 		}
-		
-		error_log($out);
 		
 		wp_localize_script('kjb_quotes_js_src', 'stock_array', $out);
 			
