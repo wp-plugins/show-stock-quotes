@@ -17,6 +17,9 @@ jQuery(document).ready(function($) {
 		        .done(function (data) {
 			        
 			        if (typeof(data.query.results) != "undefined" && data.query.results !== null) {
+			        
+			        	data.query.results.quote.Symbol = data.query.results.quote.Symbol.replace('^', '');
+			        
 				        if (data.query.results.quote.Change <= 0) {
 					        $(".kjb_show_stock_quotes_quote_" + data.query.results.quote.Symbol).attr('style', 'border: none; color:red; text-align:right'); 
 							$(".kjb_show_stock_quotes_change_" + data.query.results.quote.Symbol).attr('style', 'border: none; color:red; text-align:right');

@@ -3,7 +3,7 @@
 Plugin Name: Show Stock Quotes
 Plugin URI: http://kylebenkapps.com/wordpress-plugins/
 Description: Show stock quotes updated in real-time.
-Version: 1.2.1
+Version: 1.3
 Author: Kyle Benk
 Author URI: http://kylebenkapps.com
 License: GPL2
@@ -68,11 +68,14 @@ class kjb_Show_Stocks extends WP_Widget {
 		  <col width='40%'>
 		  <col width='40%'>
 		<?php
-		foreach($tickers as $ticker) { ?>
+		foreach($tickers as $ticker) { 
+			
+			$new_ticker = str_replace('^', '', $ticker);
+		?>
 			<tr style="border:none;"> 
 				<td class="kjb_show_stock_quotes_ticker" style="border: none;"> <?php echo $ticker; ?> </td> 
-				<td class="kjb_show_stock_quotes_quote_<?php echo $ticker; ?> kjb_show_stock_quotes_error"></td>
-				<td class="kjb_show_stock_quotes_change_<?php echo $ticker; ?> kjb_show_stock_quotes_error"></td>
+				<td class="kjb_show_stock_quotes_quote_<?php echo $new_ticker; ?> kjb_show_stock_quotes_error"></td>
+				<td class="kjb_show_stock_quotes_change_<?php echo $new_ticker; ?> kjb_show_stock_quotes_error"></td>
 			</tr>
 		<?php }
 		?></table><?php
