@@ -18,7 +18,8 @@ jQuery(document).ready(function($) {
 			        
 			        if (typeof(data.query.results) != "undefined" && data.query.results !== null) {
 			        
-			        	data.query.results.quote.Symbol = data.query.results.quote.Symbol.replace('^', '');
+			        	data.query.results.quote.Symbol = data.query.results.quote.Symbol.replace('^', '-');
+			        	data.query.results.quote.Symbol = data.query.results.quote.Symbol.replace('.', '_');
 			        
 				        if (data.query.results.quote.Change <= 0) {
 					        $(".kjb_show_stock_quotes_quote_" + data.query.results.quote.Symbol).attr('style', 'border: none; color:red; text-align:right'); 
@@ -28,8 +29,11 @@ jQuery(document).ready(function($) {
 							$(".kjb_show_stock_quotes_change_" + data.query.results.quote.Symbol).attr('style', 'border: none;color:green; text-align:right');
 				        }
 				        
-				        $(".kjb_show_stock_quotes_quote_" + data.query.results.quote.Symbol).text(data.query.results.quote.LastTradePriceOnly);
-						$(".kjb_show_stock_quotes_change_" + data.query.results.quote.Symbol).text(data.query.results.quote.Change);
+				        var price = (Math.round(data.query.results.quote.LastTradePriceOnly * 10) / 10).toFixed(2);
+				        var change = (Math.round(data.query.results.quote.Change * 10) / 10).toFixed(2);
+				        
+				        $(".kjb_show_stock_quotes_quote_" + data.query.results.quote.Symbol).text(price);
+						$(".kjb_show_stock_quotes_change_" + data.query.results.quote.Symbol).text(change);
 						
 						if (data.query.results.quote.LastTradePriceOnly == 0) {
 							$(".kjb_show_stock_quotes_quote_" + data.query.results.quote.Symbol).attr('style', 'border: none;color:red; text-align:right'); 
