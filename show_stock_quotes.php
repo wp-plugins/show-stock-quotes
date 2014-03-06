@@ -3,7 +3,7 @@
 Plugin Name: Show Stock Quotes
 Plugin URI: http://kylebenkapps.com/wordpress-plugins/
 Description: Show stock quotes updated in real-time.
-Version: 1.3.1
+Version: 1.4
 Author: Kyle Benk
 Author URI: http://kylebenkapps.com
 License: GPL2
@@ -86,7 +86,10 @@ class kjb_Show_Stocks extends WP_Widget {
 
     /** @see WP_Widget::update */
     function update($new_instance, $old_instance) {				
-		$instance = $old_instance;
+		$instance = array();
+		
+		$instance['title'] = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
+		$instance['quote_display_color'] = ( ! empty( $new_instance['quote_display_color'] ) ) ? strip_tags( $new_instance['quote_display_color'] ) : '';
 		
 		foreach ($this->options as $val) {
 			$instance[$val['name']] = strip_tags(isset($new_instance[$val['name']]) ? $new_instance[$val['name']] : '');
@@ -104,24 +107,46 @@ class kjb_Show_Stocks extends WP_Widget {
 	    	$title = __('New title');    	
 	    }
 	    
+	    if (isset($instance['quote_display_color'])){
+	    	$quote_display_color = $instance['quote_display_color'];
+    	}else{
+	    	$quote_display_color = 'change';    	
+	    }
+	    
 	   
     	?>
+    	
+    	<!-- Title -->
+    	
     	<p>
-		<label for="<?php echo $this->get_field_name( 'title' ); ?>"><?php _e( 'Title' ); ?></label> 
-		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" />
-		<br /><br />
-		<label>Stocks Tickers</label>
-		<ol>
-		
-		<?php
-		for ($i = 1; $i < 21; $i++) {
-			$stock = isset($instance['stock_'.$i]) ? $instance['stock_'.$i] : '';
-			?>
-			<li><input class="widefat" id="<?php echo $this->get_field_id( 'stock_'.$i ); ?>" name="<?php echo $this->get_field_name( 'stock_'.$i); ?>" type="text" value="<?php echo esc_attr( $stock ); ?>" /></li>
+			<label for="<?php echo $this->get_field_name( 'title' ); ?>"><?php _e( 'Title' ); ?></label> 
+			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" />
+    	</p>
+    	
+    	<!-- Quote Display Color -->
+    	
+    	<p>
+    		<label><?php _e( 'Quote Display Color' ); ?></label><br/>
+    		
+    		<input type="radio" id="<?php echo $this->get_field_id( 'quote_display_color' ); ?>" name="<?php echo $this->get_field_name( 'quote_display_color' ); ?>" value="black" <?php echo isset($quote_display_color) && $quote_display_color == 'black' ? "checked" : ""; ?>/><label><?php _e('Same as symbol'); ?></label><br/>
+    		<input type="radio" id="<?php echo $this->get_field_id( 'quote_display_color' ); ?>" name="<?php echo $this->get_field_name( 'quote_display_color' ); ?>" value="change" <?php echo isset($quote_display_color) && $quote_display_color == 'change' ? "checked" : ""; ?>/><label><?php _e('Same as change color'); ?></label>
+    	</p>
+    	
+    	<!-- Stock Tickers -->
+    	
+    	<p>
+			<label><?php _e( 'Stock Tickers' ); ?></label>
+			<ol>
+			
 			<?php
-		}
-		?>
-		</ol>
+			for ($i = 1; $i < 21; $i++) {
+				$stock = isset($instance['stock_'.$i]) ? $instance['stock_'.$i] : '';
+				?>
+				<li><input class="widefat" id="<?php echo $this->get_field_id( 'stock_'.$i ); ?>" name="<?php echo $this->get_field_name( 'stock_'.$i); ?>" type="text" value="<?php echo esc_attr( $stock ); ?>" /></li>
+				<?php
+			}
+			?>
+			</ol>
 		</p>
 		<?php 
 	}
@@ -161,7 +186,12 @@ if ($contents[1] != '0.00') {
 			}
 		}
 		
-		wp_localize_script('kjb_quotes_js_src', 'stock_array', $out);
+		$passed_data = array(
+			'out'					=> $out,
+			'quote_display_color'	=> $ticker_info['quote_display_color']
+		);
+		
+		wp_localize_script('kjb_quotes_js_src', 'passed_data', $passed_data);
 			
 			
 			//set_transient('kjb_stockdata_transient',$out,60);	

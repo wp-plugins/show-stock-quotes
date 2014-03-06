@@ -7,11 +7,11 @@
 
 jQuery(document).ready(function($) {
 	
-	if (typeof(stock_array) != "undefined" && stock_array !== null) {
-		for (var i = 0; i < stock_array.length; i++) {
+	if (typeof(passed_data) != "undefined" && passed_data !== null) {
+		for (var i = 0; i < passed_data.out.length; i++) {
 		
 			var url = "http://query.yahooapis.com/v1/public/yql";
-		    var data = encodeURIComponent("select * from yahoo.finance.quotes where symbol in ('" + stock_array[i] + "')");
+		    var data = encodeURIComponent("select * from yahoo.finance.quotes where symbol in ('" + passed_data.out[i] + "')");
 		
 		    $.getJSON(url, 'q=' + data + "&format=json&diagnostics=true&env=http%3A%2F%2Fdatatables.org%2Falltables.env")
 		        .done(function (data) {
@@ -22,10 +22,20 @@ jQuery(document).ready(function($) {
 			        	data.query.results.quote.Symbol = data.query.results.quote.Symbol.replace('.', '_');
 			        
 				        if (data.query.results.quote.Change <= 0) {
-					        $(".kjb_show_stock_quotes_quote_" + data.query.results.quote.Symbol).attr('style', 'border: none; color:red; text-align:right'); 
+				        	if (passed_data.quote_display_color == 'change') {
+					        	$(".kjb_show_stock_quotes_quote_" + data.query.results.quote.Symbol).attr('style', 'border: none; color:red; text-align:right'); 
+				        	}else {
+					        	$(".kjb_show_stock_quotes_quote_" + data.query.results.quote.Symbol).attr('style', 'border: none; text-align:right'); 
+				        	}
+					        
 							$(".kjb_show_stock_quotes_change_" + data.query.results.quote.Symbol).attr('style', 'border: none; color:red; text-align:right');
 				        }else{
-					        $(".kjb_show_stock_quotes_quote_" + data.query.results.quote.Symbol).attr('style', 'border: none;color:green; text-align:right');			        
+				        	if (passed_data.quote_display_color == 'change') {
+				        	 $(".kjb_show_stock_quotes_quote_" + data.query.results.quote.Symbol).attr('style', 'border: none;color:green; text-align:right');			      
+				        	}else {
+					        	$(".kjb_show_stock_quotes_quote_" + data.query.results.quote.Symbol).attr('style', 'border: none; text-align:right'); 
+				        	}
+					         
 							$(".kjb_show_stock_quotes_change_" + data.query.results.quote.Symbol).attr('style', 'border: none;color:green; text-align:right');
 				        }
 				        
@@ -36,7 +46,12 @@ jQuery(document).ready(function($) {
 						$(".kjb_show_stock_quotes_change_" + data.query.results.quote.Symbol).text(change);
 						
 						if (data.query.results.quote.LastTradePriceOnly == 0) {
-							$(".kjb_show_stock_quotes_quote_" + data.query.results.quote.Symbol).attr('style', 'border: none;color:red; text-align:right'); 
+							if (passed_data.quote_display_color == 'change') {
+								$(".kjb_show_stock_quotes_quote_" + data.query.results.quote.Symbol).attr('style', 'border: none;color:red; text-align:right'); 
+							}else {
+					        	$(".kjb_show_stock_quotes_quote_" + data.query.results.quote.Symbol).attr('style', 'border: none; text-align:right'); 
+				        	}
+							
 							$(".kjb_show_stock_quotes_change_" + data.query.results.quote.Symbol).attr('style', 'border: none;color:red; text-align:right');
 							$(".kjb_show_stock_quotes_quote_" + data.query.results.quote.Symbol).text('Invalid');
 							$(".kjb_show_stock_quotes_change_" + data.query.results.quote.Symbol).text('Invalid');
