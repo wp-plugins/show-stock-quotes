@@ -30,6 +30,9 @@ Upload `show_stock_quotes` to the `/wp-content/plugins/` directory or activate t
 
 == Changelog ==
 
+= 1.4.1 =
+-	Fixed minor bug
+
 = 1.4 =
 -	Option to change price color from normal (same color as ticker) to same color as change (green or red). 
 

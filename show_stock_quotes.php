@@ -3,7 +3,7 @@
 Plugin Name: Show Stock Quotes
 Plugin URI: http://kylebenkapps.com/wordpress-plugins/
 Description: Show stock quotes updated in real-time.
-Version: 1.4
+Version: 1.4.1
 Author: Kyle Benk
 Author URI: http://kylebenkapps.com
 License: GPL2
@@ -187,7 +187,7 @@ if ($contents[1] != '0.00') {
 		}
 		
 		$passed_data = array(
-			'out'					=> $out,
+			'out'					=> isset($out) ? $out : array(),
 			'quote_display_color'	=> $ticker_info['quote_display_color']
 		);
 		
@@ -197,7 +197,7 @@ if ($contents[1] != '0.00') {
 			//set_transient('kjb_stockdata_transient',$out,60);	
 		//}
 		
-		return $out;
+		return isset($out) ? $out : array();
 	}
 }
 
