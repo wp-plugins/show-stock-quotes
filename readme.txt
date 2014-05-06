@@ -8,11 +8,11 @@ Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Displays up-to-date stock data from Yahoo! Finance. Up to five stocks can be shown.
+Displays up-to-date stock data from Yahoo! Finance. Up to 20 stocks can be shown.
 
 == Description ==
 
-Displays up-to-date stock data from Yahoo! Finance. Up to five stocks can be shown.
+Displays up-to-date stock data from Yahoo! Finance. Up to 20 stocks can be shown.
 
 == Installation ==
 
