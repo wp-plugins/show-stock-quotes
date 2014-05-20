@@ -8,11 +8,15 @@ Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Displays up-to-date stock data from Yahoo! Finance. Up to 20 stocks can be shown.
+Displays up-to-date stock data from Yahoo! Finance. Up to five stocks can be shown.
 
 == Description ==
 
-Displays up-to-date stock data from Yahoo! Finance. Up to 20 stocks can be shown.
+Displays up-to-date stock data from Yahoo! Finance. Up to five stocks can be shown.
+
+This plugin also handles multiple portfolio support.  Do this by simply adding multiple instanes of the widget into the sidebar you want.
+
+Please check out my site http://kylebenkapps.com
 
 == Installation ==
 
@@ -23,6 +27,9 @@ Upload `show_stock_quotes` to the `/wp-content/plugins/` directory or activate t
 1. Show Stocks
 
 == Changelog ==
+
+= 1.5 =
+-	Fixed bug with multiple portfolios
 
 = 1.4.1 =
 -	Fixed minor bug
@@ -49,4 +56,4 @@ Upload `show_stock_quotes` to the `/wp-content/plugins/` directory or activate t
 -	Add up to 20 stocks!
 
 = 1.0 =
--	Initial release
+Initial release
