@@ -14,7 +14,7 @@ Displays up-to-date stock data from Yahoo! Finance. Up to 20 stocks can be shown
 
 Displays up-to-date stock data from Yahoo! Finance. Up to 20 stocks can be shown.
 
-This plugin also handles multiple portfolio support.  Do this by simply adding multiple instanes of the widget into the sidebar you want.
+This plugin also supports multiple portfolios.  This can be done by simply adding multiple instances of the widget into the sidebar you want.
 
 Please check out my site http://kylebenkapps.com
 
