@@ -4,7 +4,7 @@ Donate link:
 Tags: stocks, stock quotes, market, money, investing, finance, wall street
 Requires at least: 3.5
 Tested up to: 3.9.1
-Stable tag: 2.0
+Stable tag: 2.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -30,6 +30,9 @@ Upload `show_stock_quotes` to the `/wp-content/plugins/` directory or activate t
 4. Settings
 
 == Changelog ==
+
+= 2.0.2 =
+-	Fixed bug with stock change color and rounding errors.
 
 = 2.0.1 =
 -	Fixed bug with that didn’t show stock quotes for some instances.
