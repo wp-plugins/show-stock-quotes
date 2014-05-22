@@ -31,6 +31,9 @@ Upload `show_stock_quotes` to the `/wp-content/plugins/` directory or activate t
 
 == Changelog ==
 
+= 2.0.1 =
+-	Fixed bug with that didn’t show stock quotes for some instances.
+
 = 2.0 =
 -	Added RSS support
 -	Also added links to all stocks

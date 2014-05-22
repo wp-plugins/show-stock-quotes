@@ -28,7 +28,7 @@ function get_rss_feed(url, table_id, rss_num, stocks) {
 	
 	$.getJSON(url, 'q=' + yql_url + "&format=json&diagnostics=true&env=http%3A%2F%2Fdatatables.org%2Falltables.env")
 		.done(function (data) {
-			console.log(rss_num);
+			
 			for (var k = 0; k < rss_num; k++) {
 			
 				$("#kjb_show_stock_quotes_rss_" + table_id).append('<li style="border:none;"><a href="' +  data.query.results.item[k].link + '" target="_blank">' + data.query.results.item[k].title + '</a></li>');
