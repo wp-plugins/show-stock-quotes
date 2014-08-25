@@ -24,7 +24,6 @@ Upload `show_stock_quotes` to the `/wp-content/plugins/` directory or activate t
 
 1. Show Stocks
 2. Multiple Portfolios
-3. Multiple Portfolios RSS Feeds
 4. Settings
 
 == Disclaimer ==
