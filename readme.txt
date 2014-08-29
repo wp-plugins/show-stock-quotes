@@ -1,5 +1,5 @@
 === Show Stock Quotes ===
-Contributors: kjbenk
+Contributors: kjbenk, wpsitenet, charliepatel
 Donate link:
 Tags: stocks, stock quotes, market, money, investing, finance, wall street
 Requires at least: 3.5
