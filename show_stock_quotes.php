@@ -3,7 +3,7 @@
 Plugin Name: Show Stock Quotes
 Plugin URI: http://kylebenkapps.com/show-stock-quotes/
 Description: Display up to 20 stock quotes per portfolio.  Each widget instance is considered a portfolio, so just add more widget instances for more portfolios.
-Version: 2.0.8
+Version: 2.1
 Author: Kyle Benk
 Author URI: http://kylebenkapps.com
 License: GPL2
@@ -29,7 +29,7 @@ Advertisements presented on Google Finance are solely the responsibility of the 
 /* Plugin verison */
 
 if (!defined('KJB_SHOW_STOCK_QUOTES_VERSION_NUM'))
-    define('KJB_SHOW_STOCK_QUOTES_VERSION_NUM', '2.0.8');
+    define('KJB_SHOW_STOCK_QUOTES_VERSION_NUM', '2.1');
 
 add_action( 'widgets_init', 'wps_show_stock_quotes_register');
 
@@ -129,9 +129,10 @@ class kjb_Show_Stocks extends WP_Widget {
 		//Display all stock data
 		?>
 		<table class="kjb_show_stock_quotes_table" id="<?php echo $this->id; ?>">
-		  <col width='20%'>
-		  <col width='40%'>
-		  <col width='40%'>
+		  <col width='25%'>
+		  <col width='25%'>
+		  <col width='25%'>
+		  <col width='25%'>
 		<?php
 		foreach($tickers as $ticker) {
 
@@ -142,6 +143,7 @@ class kjb_Show_Stocks extends WP_Widget {
 				<td class="kjb_show_stock_quotes_ticker" style="border: none;"> <a target="_blank" href="http://finance.yahoo.com/q?s=<?php echo $ticker; ?>"><?php echo $ticker; ?></a></td>
 				<td class="kjb_show_stock_quotes_quote_<?php echo $this->id . $new_ticker; ?> kjb_show_stock_quotes_error"></td>
 				<td class="kjb_show_stock_quotes_change_<?php echo $new_ticker; ?> kjb_show_stock_quotes_error"></td>
+				<td class="kjb_show_stock_quotes_change_p_<?php echo $new_ticker; ?> kjb_show_stock_quotes_error"></td>
 			</tr>
 
 			<tr style="border:none;">
